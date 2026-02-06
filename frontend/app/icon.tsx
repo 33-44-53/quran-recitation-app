@@ -1,0 +1,35 @@
+import { ImageResponse } from 'next/og'
+
+export const runtime = 'edge'
+
+export const alt = 'Tilawa - Quran Reading App'
+export const size = {
+  width: 32,
+  height: 32,
+}
+export const contentType = 'image/svg+xml'
+
+export default function Icon() {
+  return new ImageResponse(
+    (
+      <svg
+        width={size.width}
+        height={size.height}
+        viewBox="0 0 32 32"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ display: 'flex' }}
+      >
+        <rect width="32" height="32" rx="4" fill="#2E7D32"/>
+        <path d="M8 8C8 6.89543 8.89543 6 10 6H22C23.1046 6 24 6.89543 24 8V24C24 25.1046 23.1046 26 22 26H10C8.89543 26 8 25.1046 8 24V8Z" fill="white"/>
+        <path d="M10 8H22V10H10V8Z" fill="#2E7D32"/>
+        <path d="M12 12H20V14H12V12Z" fill="#2E7D32"/>
+        <path d="M12 16H18V18H12V16Z" fill="#2E7D32"/>
+        <path d="M12 20H16V22H12V20Z" fill="#2E7D32"/>
+      </svg>
+    ),
+    {
+      ...size,
+    }
+  )
+}

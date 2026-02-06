@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* KFGQPC Uthmanic Script HAFS Font */
 @font-face {
   font-family: 'KFGQPC Uthmanic Script HAFS';
   src: url('https://cdn.jsdelivr.net/gh/MaherJendoubi/KFGQPC-Uthmanic-Script-HAFS@main/fonts/KFGQPC_Uthmanic_Script_HAFS_regular.ttf') format('truetype');
@@ -11,49 +10,47 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'KFGQPC Uthmanic Script HAFS';
-  src: url('https://cdn.jsdelivr.net/npm/quran-font@1.0.0/ttf/KFGQPC_Uthmanic_Script_HAFS.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --primary: 46 125 50;
+    --secondary: 27 94 32;
+    --accent: 255 215 0;
+    --success: 76 175 80;
+    --background: 250 250 250;
+    --foreground: 20 20 20;
+    --card: 255 255 255;
+    --card-foreground: 20 20 20;
+  }
+
+  .dark {
+    --primary: 76 175 80;
+    --secondary: 129 199 132;
+    --accent: 255 235 59;
+    --success: 46 125 50;
+    --background: 15 15 15;
+    --foreground: 245 245 245;
+    --card: 25 25 25;
+    --card-foreground: 245 245 245;
   }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Quran Arabic Text - KFGQPC Uthmanic Script HAFS */
 .arabic-text {
-  font-family: 'KFGQPC Uthmanic Script HAFS', 'Uthmanic Script', 'HAFS', 
-               ' Scheherazade New', 'Arial', sans-serif;
+  font-family: 'KFGQPC Uthmanic Script HAFS', 'Scheherazade New', 'Arial', sans-serif;
   direction: rtl;
   text-align: right;
   line-height: 2.5;
   font-size: 1.75rem;
   font-weight: 400;
-  unicode-bidi: bidi-override;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #000000;
+}
+
+.dark .arabic-text {
+  color: rgb(var(--foreground));
 }

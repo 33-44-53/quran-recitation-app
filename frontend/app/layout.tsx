@@ -1,5 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { ThemeProvider } from './context/ThemeContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,9 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="min-h-screen bg-gradient-to-br from-islamic-green/10 to-islamic-dark/5">
+        <ThemeProvider>
           {children}
-        </div>
+        </ThemeProvider>
       </body>
     </html>
   )

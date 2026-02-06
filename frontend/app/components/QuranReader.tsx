@@ -37,7 +37,6 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
   const [showSurahList, setShowSurahList] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
 
-  // Load saved position when Juz changes
   useEffect(() => {
     const savedPosition = localStorage.getItem(`quran_position_${currentJuz}`)
     if (savedPosition) {
@@ -47,7 +46,6 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
     }
   }, [currentJuz, ayahs.length])
 
-  // Save scroll position when scrolling
   useEffect(() => {
     const handleScroll = () => {
       if (viewMode === 'juz') {
@@ -59,7 +57,6 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
     return () => window.removeEventListener('scroll', handleScroll)
   }, [currentJuz, viewMode])
 
-  // Also save position when leaving the reader
   useEffect(() => {
     const handleBeforeUnload = () => {
       if (viewMode === 'juz') {
@@ -116,7 +113,6 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
   }
 
   const groupedAyahs = ayahs.reduce((acc, ayah) => {
-    // Handle different API response structures
     const surah = ayah.surah || ayah.surahNumber || { number: ayah.surahNumber || 1, englishName: 'Surah', name: '' }
     const surahNumber = surah.number || ayah.surahNumber || 1
     
@@ -139,21 +135,21 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-islamic-green/5 to-islamic-dark/5">
-      <div className="bg-white shadow-sm border-b sticky top-0 z-10">
+    <div className="min-h-screen bg-gradient-to-br from-islamic-green/5 to-islamic-dark/5 dark:from-gray-900 dark:to-gray-800">
+      <div className="bg-white dark:bg-gray-900 shadow-sm border-b dark:border-gray-700 sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <button onClick={onBack} className="p-2 hover:bg-gray-100 rounded-lg">
-                <ArrowLeft className="w-6 h-6" />
+              <button onClick={onBack} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
+                <ArrowLeft className="w-6 h-6 dark:text-white" />
               </button>
               <div>
-                <h1 className="text-xl font-semibold">
+                <h1 className="text-xl font-semibold dark:text-white">
                   {viewMode === 'juz' && `Juz ${currentJuz}`}
                   {viewMode === 'surah' && `Surah ${currentSurah}`}
                   {viewMode === 'page' && `Page ${currentPage}`}
                 </h1>
-                <p className="text-sm text-gray-600">{ayahs.length} Ayahs</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{ayahs.length} Ayahs</p>
               </div>
             </div>
 
@@ -161,7 +157,7 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
               <select
                 value={viewMode}
                 onChange={(e) => setViewMode(e.target.value as any)}
-                className="px-3 py-2 bg-gray-200 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-islamic-green focus:border-transparent"
+                className="px-3 py-2 bg-gray-200 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-800 dark:text-white focus:ring-2 focus:ring-islamic-green focus:border-transparent"
               >
                 <option value="juz">By Juz</option>
                 <option value="surah">By Surah</option>
@@ -172,30 +168,28 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => {
-                      // Save position before leaving
                       localStorage.setItem(`quran_position_${currentJuz}`, window.scrollY.toString())
                       const newJuz = Math.max(1, currentJuz - 1)
                       setCurrentJuz(newJuz)
                       onJuzChange?.(newJuz)
                     }}
                     disabled={currentJuz === 1}
-                    className="p-2 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 transition-colors"
+                    className="p-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded disabled:opacity-50 transition-colors"
                   >
-                    <ChevronLeft className="w-5 h-5 text-gray-700" />
+                    <ChevronLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                   </button>
                   <span className="px-3 py-1 bg-islamic-green text-white rounded">{currentJuz}</span>
                   <button
                     onClick={() => {
-                      // Save position before leaving
                       localStorage.setItem(`quran_position_${currentJuz}`, window.scrollY.toString())
                       const newJuz = Math.min(30, currentJuz + 1)
                       setCurrentJuz(newJuz)
                       onJuzChange?.(newJuz)
                     }}
                     disabled={currentJuz === 30}
-                    className="p-2 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 transition-colors"
+                    className="p-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded disabled:opacity-50 transition-colors"
                   >
-                    <ChevronRight className="w-5 h-5 text-gray-700" />
+                    <ChevronRight className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                   </button>
                 </div>
               )}
@@ -214,17 +208,17 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                   <button
                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
-                    className="p-2 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 transition-colors"
+                    className="p-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded disabled:opacity-50 transition-colors"
                   >
-                    <ChevronLeft className="w-5 h-5 text-gray-700" />
+                    <ChevronLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                   </button>
                   <span className="px-3 py-1 bg-islamic-green text-white rounded">{currentPage}</span>
                   <button
                     onClick={() => setCurrentPage(Math.min(604, currentPage + 1))}
                     disabled={currentPage === 604}
-                    className="p-2 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 transition-colors"
+                    className="p-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded disabled:opacity-50 transition-colors"
                   >
-                    <ChevronRight className="w-5 h-5 text-gray-700" />
+                    <ChevronRight className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                   </button>
                 </div>
               )}
@@ -243,10 +237,10 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
 
       {showSurahList && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6">
+          <div className="bg-white dark:bg-gray-900 rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">Select Surah</h2>
-              <button onClick={() => setShowSurahList(false)} className="text-gray-500 hover:text-gray-700">
+              <h2 className="text-2xl font-bold dark:text-white">Select Surah</h2>
+              <button onClick={() => setShowSurahList(false)} className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
                 ✕
               </button>
             </div>
@@ -258,12 +252,12 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                     setCurrentSurah(num)
                     setShowSurahList(false)
                   }}
-                  className="p-3 text-left border rounded-lg hover:bg-islamic-green/10 hover:border-islamic-green transition-colors"
+                  className="p-3 text-left border dark:border-gray-700 rounded-lg hover:bg-islamic-green/10 hover:border-islamic-green transition-colors"
                 >
                   <div className="font-semibold">
-                    <span className="arabic-text" style={{fontSize: '1.25rem'}}>{SURAH_NAMES[num]}</span>
+                    <span className="arabic-text dark:text-white" style={{fontSize: '1.25rem'}}>{SURAH_NAMES[num]}</span>
                   </div>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
                     Surah {num}
                   </div>
                 </button>
@@ -276,36 +270,33 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
       <div className="max-w-5xl mx-auto px-4 py-8" ref={contentRef}>
         {Object.values(groupedAyahs).map(({ surah, ayahs }) => (
           <div key={surah.number} className="mb-12">
-            <div className="bg-white rounded-xl p-6 mb-6 shadow-lg">
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-6 mb-6 shadow-lg">
               <div className="text-center">
-                <div className="inline-flex items-center space-x-4 bg-islamic-green/10 px-6 py-3 rounded-full">
+                <div className="inline-flex items-center space-x-4 bg-islamic-green/10 dark:bg-islamic-green/20 px-6 py-3 rounded-full">
                   <BookOpen className="w-5 h-5 text-islamic-green" />
-                  <h2 className="text-xl font-semibold text-islamic-dark">
+                  <h2 className="text-xl font-semibold text-islamic-dark dark:text-white">
                     Surah {surah.englishName} ({surah.name})
                   </h2>
-                  <span className="text-sm text-gray-600">#{surah.number}</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">#{surah.number}</span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-8 shadow-lg">
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg">
               <div className="space-y-8">
-                {/* Separate Bismillah for Surahs 2-114 */}
                 {ayahs[0]?.numberInSurah === 1 && surah.number !== 1 && (
-                  <div className="border-b border-gray-100 pb-6 mb-6">
+                  <div className="border-b border-gray-100 dark:border-gray-800 pb-6 mb-6">
                     <div className="arabic-text text-3xl leading-loose mb-4 text-right" dir="rtl" style={{color: '#2E7D32'}}>
                       بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
                     </div>
                   </div>
                 )}
                 {ayahs.map((ayah: any, index: number) => {
-                  // For Surahs 2-114, skip displaying ayah number for first ayah if it contains Bismillah
                   const shouldSkipNumber = surah.number !== 1 && index === 0 && ayah.text.startsWith('بِسْمِ اللَّهِ')
                   
                   return (
-                    <div key={ayah.number} className="border-b border-gray-100 pb-6 last:border-b-0">
-                      <div className="arabic-text text-3xl leading-loose mb-4 text-right" dir="rtl">
-                        {/* Remove Bismillah from first ayah if it exists */}
+                    <div key={ayah.number} className="border-b border-gray-100 dark:border-gray-800 pb-6 last:border-b-0">
+                      <div className="arabic-text text-3xl leading-loose mb-4 text-right text-gray-900 dark:text-gray-100" dir="rtl">
                         {surah.number !== 1 && index === 0 && ayah.text.startsWith('بِسْمِ اللَّهِ')
                           ? ayah.text.replace(/^بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\s*/, '')
                           : ayah.text
@@ -317,7 +308,7 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                         )}
                       </div>
 
-                    <div className="flex items-center justify-between text-sm text-gray-500">
+                    <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                       <div className="flex items-center space-x-4">
                         <span>Ayah {ayah.numberInSurah}</span>
                         <span>•</span>

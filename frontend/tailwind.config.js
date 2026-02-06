@@ -5,18 +5,20 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         islamic: {
-          green: '#2E7D32',
-          gold: '#FFD700',
-          dark: '#1B5E20',
-        }
+          green: 'rgb(var(--primary) / <alpha-value>)',
+          dark: 'rgb(var(--secondary) / <alpha-value>)',
+          gold: 'rgb(var(--accent) / <alpha-value>)',
+          success: 'rgb(var(--success) / <alpha-value>)',
+        },
+        background: 'rgb(var(--background) / <alpha-value>)',
+        foreground: 'rgb(var(--foreground) / <alpha-value>)',
+        card: 'rgb(var(--card) / <alpha-value>)',
       },
-      fontFamily: {
-        arabic: ['Segoe UI', 'Tahoma', 'Arial', 'sans-serif'],
-      }
     },
   },
   plugins: [],

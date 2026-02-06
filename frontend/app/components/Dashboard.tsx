@@ -183,16 +183,16 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
   }
 
   return (
-    <div className="min-h-screen p-4 bg-gradient-to-br from-islamic-green/5 to-islamic-dark/5">
+    <div className="min-h-screen p-4 bg-gradient-to-br from-islamic-green/5 to-islamic-dark/5 dark:from-gray-900 dark:to-gray-800">
       {/* Real-time Clock Header */}
-      <div className="bg-white rounded-xl shadow-lg p-4 mb-6">
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 mb-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2 text-islamic-green">
               <Clock className="w-6 h-6" />
               <span className="text-2xl font-bold font-mono">{formatTime(currentTime)}</span>
             </div>
-            <div className="text-gray-600">
+            <div className="text-gray-600 dark:text-gray-300">
               <span className="font-medium">{formatDate(currentTime)}</span>
               <span className="mx-2">•</span>
               <span className="font-medium text-islamic-green" dir="ltr">{getHijriDate()}</span>
@@ -200,17 +200,17 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
           </div>
           
           <div className="flex items-center space-x-4">
-            <div className="bg-islamic-green/10 px-4 py-2 rounded-lg">
-              <span className="text-sm text-gray-600">Ramadan Day </span>
+            <div className="bg-islamic-green/10 dark:bg-islamic-green/20 px-4 py-2 rounded-lg">
+              <span className="text-sm text-gray-600 dark:text-gray-300">Ramadan Day </span>
               <span className="text-xl font-bold text-islamic-green">{getRamadanDay()}/30</span>
             </div>
             
             <button
               onClick={() => setShowEditPlan(true)}
-              className="flex items-center space-x-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              className="flex items-center space-x-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
-              <Edit2 className="w-4 h-4 text-gray-600" />
-              <span className="text-sm text-gray-600">Edit Plan</span>
+              <Edit2 className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+              <span className="text-sm text-gray-600 dark:text-gray-300">Edit Plan</span>
             </button>
           </div>
         </div>
@@ -219,15 +219,15 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
       {/* Edit Plan Modal */}
       {showEditPlan && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6">
-            <h2 className="text-2xl font-bold mb-4">Edit Your Plan</h2>
+          <div className="bg-white dark:bg-gray-900 rounded-xl max-w-md w-full p-6">
+            <h2 className="text-2xl font-bold mb-4 dark:text-white">Edit Your Plan</h2>
             <form onSubmit={updatePlan} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Daily Goal (Juz per day)</label>
+                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Daily Goal (Juz per day)</label>
                 <select
                   value={editForm.ramadan_goal}
                   onChange={(e) => setEditForm({...editForm, ramadan_goal: parseInt(e.target.value)})}
-                  className="w-full px-4 py-2 border rounded-lg text-gray-900 bg-white"
+                  className="w-full px-4 py-2 border rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-800 dark:border-gray-700"
                 >
                   <option value={1}>1 Juz - Complete in 30 days</option>
                   <option value={2}>2 Juz - Complete in 15 days</option>
@@ -236,12 +236,12 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Ramadan Start Date</label>
+                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Ramadan Start Date</label>
                 <input
                   type="date"
                   value={editForm.ramadan_start_date}
                   onChange={(e) => setEditForm({...editForm, ramadan_start_date: e.target.value})}
-                  className="w-full px-4 py-2 border rounded-lg text-gray-900 bg-white"
+                  className="w-full px-4 py-2 border rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-800 dark:border-gray-700"
                   required
                 />
               </div>
@@ -255,7 +255,7 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
                 <button
                   type="button"
                   onClick={() => setShowEditPlan(false)}
-                  className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 transition-colors"
+                  className="flex-1 bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-2 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors"
                 >
                   Cancel
                 </button>
@@ -268,8 +268,8 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-islamic-dark">As-salamu alaykum, {userName}</h1>
-            <p className="text-gray-600">
+            <h1 className="text-3xl font-bold text-islamic-dark dark:text-white">As-salamu alaykum, {userName}</h1>
+            <p className="text-gray-600 dark:text-gray-300">
               Day {todaysPlan?.day || getRamadanDay()} of Ramadan • {userData?.ramadan_goal || 1} juz daily
             </p>
           </div>
@@ -285,7 +285,7 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
             )}
             <button
               onClick={onLogout}
-              className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-islamic-green transition-colors"
+              className="flex items-center space-x-2 px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-islamic-green transition-colors"
             >
               <LogOut className="w-5 h-5" />
               <span>Logout</span>
@@ -295,23 +295,23 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
 
         {stats && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white rounded-xl p-6 shadow-lg">
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Full Reading</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Full Reading</p>
                   <p className="text-3xl font-bold text-islamic-green">
                     {stats.quran_completions.toFixed(1)}x
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">Complete readings</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Complete readings</p>
                 </div>
                 <Book className="w-10 h-10 text-islamic-green" />
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-lg">
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Overall Progress</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Overall Progress</p>
                   <p className="text-3xl font-bold text-blue-600">
                     {stats.completion_percentage}%
                   </p>
@@ -320,14 +320,14 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-lg">
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Today's Progress</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Today's Progress</p>
                   <p className="text-3xl font-bold text-purple-600">
                     {stats.today_percentage}%
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     {stats.today_completed}/{stats.today_required} Juz
                   </p>
                 </div>
@@ -335,10 +335,10 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-lg">
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Days Left</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Days Left</p>
                   <p className="text-3xl font-bold text-orange-600">
                     {stats.days_remaining}
                   </p>
@@ -350,8 +350,8 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
         )}
 
         {todaysPlan && (
-          <div className="bg-white rounded-xl p-6 shadow-lg mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Today's Reading Plan</h2>
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg mb-8">
+            <h2 className="text-2xl font-semibold mb-4 dark:text-white">Today's Reading Plan</h2>
             <div className="space-y-3">
               {todaysPlan.required_juz.map((juzNumber: number) => {
                 const isCompleted = todaysPlan.completed_juz.includes(juzNumber)
@@ -369,8 +369,8 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
                         {juzNumber}
                       </div>
                       <div>
-                        <div className="font-semibold text-lg">Juz {juzNumber}</div>
-                        <div className="text-sm text-gray-600">≈ 20 pages</div>
+                        <div className="font-semibold text-lg dark:text-white">Juz {juzNumber}</div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400">≈ 20 pages</div>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
@@ -396,15 +396,15 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
           </div>
         )}
 
-        <div className="bg-white rounded-xl p-6 shadow-lg mb-8">
+        <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg mb-8">
           <div className="flex items-center space-x-3">
             <Heart className="w-6 h-6 text-red-500" />
-            <p className="text-lg italic text-gray-700">{motivation}</p>
+            <p className="text-lg italic text-gray-700 dark:text-gray-300">{motivation}</p>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl p-6 shadow-lg">
-          <h2 className="text-xl font-semibold mb-4">Ramadan Calendar</h2>
+        <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
+          <h2 className="text-xl font-semibold mb-4 dark:text-white">Ramadan Calendar</h2>
           <div className="grid grid-cols-7 gap-2">
             {dailyPlan.map((day) => {
               const completionRate = day.required_juz.length > 0 

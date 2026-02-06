@@ -41,13 +41,13 @@ export default function Auth({ onLogin, onBack }: AuthProps) {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-islamic-green/10 to-islamic-dark/5">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-islamic-green/10 to-islamic-dark/5 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-md w-full">
         {/* Back Button */}
         {onBack && (
           <button
             onClick={onBack}
-            className="flex items-center text-gray-600 hover:text-islamic-green mb-6 transition-colors"
+            className="flex items-center text-gray-600 dark:text-gray-300 hover:text-islamic-green mb-6 transition-colors"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             <span>Back</span>
@@ -59,16 +59,16 @@ export default function Auth({ onLogin, onBack }: AuthProps) {
               <Book className="w-12 h-12 text-white" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-islamic-dark mb-2">Qur'an Recitation</h1>
-          <p className="text-gray-600">Your Ramadan Companion</p>
+          <h1 className="text-3xl font-bold text-islamic-dark dark:text-white mb-2">Qur'an Recitation</h1>
+          <p className="text-gray-600 dark:text-gray-300">Your Ramadan Companion</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8">
+          <div className="flex mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
             <button
               onClick={() => setIsLogin(true)}
               className={`flex-1 py-2 rounded-md transition-colors font-medium ${
-                isLogin ? 'bg-white shadow-sm text-islamic-dark' : 'text-gray-700'
+                isLogin ? 'bg-white dark:bg-gray-700 shadow-sm text-islamic-dark dark:text-white' : 'text-gray-700 dark:text-gray-300'
               }`}
             >
               Login
@@ -76,7 +76,7 @@ export default function Auth({ onLogin, onBack }: AuthProps) {
             <button
               onClick={() => setIsLogin(false)}
               className={`flex-1 py-2 rounded-md transition-colors font-medium ${
-                !isLogin ? 'bg-white shadow-sm text-islamic-dark' : 'text-gray-700'
+                !isLogin ? 'bg-white dark:bg-gray-700 shadow-sm text-islamic-dark dark:text-white' : 'text-gray-700 dark:text-gray-300'
               }`}
             >
               Sign Up
@@ -86,14 +86,14 @@ export default function Auth({ onLogin, onBack }: AuthProps) {
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
               <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">Name</label>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Name</label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-islamic-green focus:border-transparent text-gray-900"
+                    className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-islamic-green focus:border-transparent text-gray-900 dark:text-white dark:bg-gray-800"
                     placeholder="Your name"
                     required={!isLogin}
                   />
@@ -102,14 +102,14 @@ export default function Auth({ onLogin, onBack }: AuthProps) {
             )}
 
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">Email</label>
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Email</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-islamic-green focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-islamic-green focus:border-transparent text-gray-900 dark:text-white dark:bg-gray-800"
                   placeholder="your@email.com"
                   required
                 />
@@ -117,14 +117,14 @@ export default function Auth({ onLogin, onBack }: AuthProps) {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">Password</label>
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-islamic-green focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-2 border dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-islamic-green focus:border-transparent text-gray-900 dark:text-white dark:bg-gray-800"
                   placeholder="••••••••"
                   required
                 />
@@ -132,7 +132,7 @@ export default function Auth({ onLogin, onBack }: AuthProps) {
             </div>
 
             {error && (
-              <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">
+              <div className="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-3 rounded-lg text-sm">
                 {error}
               </div>
             )}
