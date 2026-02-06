@@ -7,9 +7,10 @@ import axios from 'axios'
 interface GoalSelectionProps {
   token: string
   onGoalSet: () => void
+  onFreeReading?: () => void
 }
 
-export default function GoalSelection({ token, onGoalSet }: GoalSelectionProps) {
+export default function GoalSelection({ token, onGoalSet, onFreeReading }: GoalSelectionProps) {
   const [selectedGoal, setSelectedGoal] = useState(1)
   const [loading, setLoading] = useState(false)
 
@@ -110,6 +111,16 @@ export default function GoalSelection({ token, onGoalSet }: GoalSelectionProps) 
           >
             {loading ? 'Setting Goal...' : 'Begin Ramadan Journey'}
           </button>
+
+          {/* Read Without Goal Button */}
+          {onFreeReading && (
+            <button
+              onClick={onFreeReading}
+              className="w-full mt-4 bg-gray-100 text-gray-700 py-4 rounded-xl font-semibold text-lg hover:bg-gray-200 transition-colors"
+            >
+              Read Without Goal
+            </button>
+          )}
         </div>
       </div>
     </div>

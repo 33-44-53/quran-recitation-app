@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Book, Calendar, TrendingUp, LogOut, Heart, CheckCircle, Target, Clock, Edit2 } from 'lucide-react'
+import { Book, Calendar, TrendingUp, LogOut, Heart, CheckCircle, Target, Clock, Edit2, BookOpen } from 'lucide-react'
 import axios from 'axios'
 
 interface DashboardProps {
@@ -9,9 +9,10 @@ interface DashboardProps {
   userName: string
   onStartReading: (juzNumber: number) => void
   onLogout: () => void
+  onFreeReading?: () => void
 }
 
-export default function Dashboard({ token, userName, onStartReading, onLogout }: DashboardProps) {
+export default function Dashboard({ token, userName, onStartReading, onLogout, onFreeReading }: DashboardProps) {
   const [dailyPlan, setDailyPlan] = useState<any[]>([])
   const [stats, setStats] = useState<any>(null)
   const [motivation, setMotivation] = useState('')
@@ -121,6 +122,47 @@ export default function Dashboard({ token, userName, onStartReading, onLogout }:
     })
   }
 
+  // Calculate Hijri date
+  const getHijriDate = () => {
+    const today = new Date()
+    
+    // Using a more accurate calculation
+    // Reference date: 1 Muharram 1445 AH = July 19, 2023 CE
+    const refGregorian = new Date(2023, 6, 19) // July 19, 2023
+    const refHijriDay = 1
+    const refHijriMonth = 0 // Muharram
+    const refHijriYear = 1445
+    
+    // Calculate days difference
+    const diffTime = today.getTime() - refGregorian.getTime()
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) - 2 // Subtract 2 for accuracy
+    
+    // Hijri year length varies between 354 and 355 days
+    let hijriDays = diffDays + refHijriDay
+    let hijriYear = refHijriYear
+    let hijriMonth = refHijriMonth
+    
+    // Hijri month lengths (approximate)
+    const hijriMonthLengths = [29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30]
+    const hijriMonths = [
+      'Muharram', 'Safar', 'Rabi\' al-Awwal', 'Rabi\' al-Thani',
+      'Jumada al-Ula', 'Jumada al-Thani', 'Rajab', 'Sha\'ban',
+      'Ramadan', 'Shawwal', 'Dhu al-Qadah', 'Dhu al-Hijjah'
+    ]
+    
+    // Calculate Hijri year
+    while (hijriDays > hijriMonthLengths[hijriMonth % 12]) {
+      hijriDays -= hijriMonthLengths[hijriMonth % 12]
+      hijriMonth++
+      if (hijriMonth >= 12) {
+        hijriMonth = 0
+        hijriYear++
+      }
+    }
+    
+    return `${hijriDays} ${hijriMonths[hijriMonth]} ${hijriYear} AH`
+  }
+
   const getRamadanDay = () => {
     if (!userData?.ramadan_start_date) return 1
     const startDate = new Date(userData.ramadan_start_date)
@@ -152,6 +194,8 @@ export default function Dashboard({ token, userName, onStartReading, onLogout }:
             </div>
             <div className="text-gray-600">
               <span className="font-medium">{formatDate(currentTime)}</span>
+              <span className="mx-2">•</span>
+              <span className="font-medium text-islamic-green" dir="ltr">{getHijriDate()}</span>
             </div>
           </div>
           
@@ -183,7 +227,7 @@ export default function Dashboard({ token, userName, onStartReading, onLogout }:
                 <select
                   value={editForm.ramadan_goal}
                   onChange={(e) => setEditForm({...editForm, ramadan_goal: parseInt(e.target.value)})}
-                  className="w-full px-4 py-2 border rounded-lg"
+                  className="w-full px-4 py-2 border rounded-lg text-gray-900 bg-white"
                 >
                   <option value={1}>1 Juz - Complete in 30 days</option>
                   <option value={2}>2 Juz - Complete in 15 days</option>
@@ -197,7 +241,7 @@ export default function Dashboard({ token, userName, onStartReading, onLogout }:
                   type="date"
                   value={editForm.ramadan_start_date}
                   onChange={(e) => setEditForm({...editForm, ramadan_start_date: e.target.value})}
-                  className="w-full px-4 py-2 border rounded-lg"
+                  className="w-full px-4 py-2 border rounded-lg text-gray-900 bg-white"
                   required
                 />
               </div>
@@ -226,16 +270,27 @@ export default function Dashboard({ token, userName, onStartReading, onLogout }:
           <div>
             <h1 className="text-3xl font-bold text-islamic-dark">As-salamu alaykum, {userName}</h1>
             <p className="text-gray-600">
-              Day {todaysPlan?.day || getRamadanDay()} of Ramadan • {userData?.ramadan_goal || 1}x daily
+              Day {todaysPlan?.day || getRamadanDay()} of Ramadan • {userData?.ramadan_goal || 1} juz daily
             </p>
           </div>
-          <button
-            onClick={onLogout}
-            className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-islamic-green transition-colors"
-          >
-            <LogOut className="w-5 h-5" />
-            <span>Logout</span>
-          </button>
+          <div className="flex items-center space-x-4">
+            {onFreeReading && (
+              <button
+                onClick={onFreeReading}
+                className="flex items-center space-x-2 px-4 py-2 bg-islamic-green text-white rounded-lg hover:bg-islamic-dark transition-colors"
+              >
+                <BookOpen className="w-5 h-5" />
+                <span>Free Reading</span>
+              </button>
+            )}
+            <button
+              onClick={onLogout}
+              className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-islamic-green transition-colors"
+            >
+              <LogOut className="w-5 h-5" />
+              <span>Logout</span>
+            </button>
+          </div>
         </div>
 
         {stats && (
@@ -243,10 +298,11 @@ export default function Dashboard({ token, userName, onStartReading, onLogout }:
             <div className="bg-white rounded-xl p-6 shadow-lg">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Completed</p>
+                  <p className="text-sm text-gray-600">Full Reading</p>
                   <p className="text-3xl font-bold text-islamic-green">
                     {stats.quran_completions.toFixed(1)}x
                   </p>
+                  <p className="text-xs text-gray-500 mt-1">Complete readings</p>
                 </div>
                 <Book className="w-10 h-10 text-islamic-green" />
               </div>
@@ -360,21 +416,21 @@ export default function Dashboard({ token, userName, onStartReading, onLogout }:
                   key={day.day}
                   className={`p-3 rounded-lg text-center border-2 ${
                     day.is_today
-                      ? 'border-islamic-green bg-islamic-green/10'
+                      ? 'border-islamic-green bg-green-50'
                       : day.is_future
-                      ? 'border-gray-200 bg-gray-50 opacity-50'
+                      ? 'border-gray-200 bg-gray-100 opacity-60'
                       : completionRate === 100
-                      ? 'border-green-500 bg-green-50'
+                      ? 'border-green-500 bg-green-100'
                       : completionRate > 0
                       ? 'border-yellow-500 bg-yellow-50'
                       : 'border-red-200 bg-red-50'
                   }`}
                 >
-                  <div className="font-semibold">{day.day}</div>
-                  <div className="text-xs mt-1">
+                  <div className={`font-bold ${day.is_today ? 'text-islamic-green' : 'text-gray-800'}`}>{day.day}</div>
+                  <div className={`text-xs mt-1 font-medium ${day.is_today ? 'text-islamic-dark' : 'text-gray-700'}`}>
                     {day.completed_juz.length}/{day.required_juz.length}
                   </div>
-                  <div className="text-xs text-gray-500">{Math.round(completionRate)}%</div>
+                  <div className={`text-xs font-semibold ${completionRate === 100 ? 'text-green-600' : completionRate > 0 ? 'text-yellow-600' : 'text-red-400'}`}>{Math.round(completionRate)}%</div>
                 </div>
               )
             })}

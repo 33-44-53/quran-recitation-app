@@ -4,6 +4,22 @@ import { useState, useEffect, useRef } from 'react'
 import { ArrowLeft, BookOpen, ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react'
 import axios from 'axios'
 
+// Complete list of 114 Surahs with Arabic names
+const SURAH_NAMES: Record<number, string> = {
+  1: 'الفاتحة', 2: 'البقرة', 3: 'آل عمران', 4: 'النساء', 5: 'المائدة', 6: 'الأنعام', 7: 'الأعراف', 8: 'الأنفال', 9: 'التوبة', 10: 'يونس',
+  11: 'هود', 12: 'يوسف', 13: 'الرعد', 14: 'إبراهيم', 15: 'الحجر', 16: 'النحل', 17: 'الإسراء', 18: 'الكهف', 19: 'مريم', 20: 'طه',
+  21: 'الأنبياء', 22: 'الحج', 23: 'المؤمنون', 24: 'النور', 25: 'الفرقان', 26: 'الشعراء', 27: 'النمل', 28: 'القصص', 29: 'العنكبوت', 30: 'الروم',
+  31: 'لقمان', 32: 'السجدة', 33: 'الأحزاب', 34: 'سبأ', 35: 'فاطر', 36: 'يس', 37: 'الصافات', 38: 'ص', 39: 'الزمر', 40: 'غافر',
+  41: 'فصلت', 42: 'الشورى', 43: 'الزخرف', 44: 'الدخان', 45: 'الجاثية', 46: 'الأحقاف', 47: 'محمد', 48: 'الفتح', 49: 'الحجرات', 50: 'ق',
+  51: 'الذاريات', 52: 'الطور', 53: 'النجم', 54: 'القمر', 55: 'الرحمن', 56: 'الواقعة', 57: 'الحديد', 58: 'المجادلة', 59: 'الحشر', 60: 'الممتحنة',
+  61: 'الصف', 62: 'الجمعة', 63: 'المنافقون', 64: 'التغابن', 65: 'الطلاق', 66: 'التحريم', 67: 'الملك', 68: 'القلم', 69: 'الحاقة', 70: 'المعارج',
+  71: 'نوح', 72: 'الجن', 73: 'المزمل', 74: 'المدثر', 75: 'القيامة', 76: 'الإنسان', 77: 'المرسلات', 78: 'النبأ', 79: 'النازعات', 80: 'عبس',
+  81: 'التكوير', 82: 'الانفطار', 83: 'المطففين', 84: 'الانشقاق', 85: 'البروج', 86: 'الطارق', 87: 'الأعلى', 88: 'الغاشية', 89: 'الفجر', 90: 'البلد',
+  91: 'الشمس', 92: 'الليل', 93: 'الضحى', 94: 'الشرح', 95: 'التين', 96: 'العلق', 97: 'القدر', 98: 'البينة', 99: 'الزلزلة', 100: 'العاديات',
+  101: 'القارعة', 102: 'التكاثر', 103: 'العصر', 104: 'الهمزة', 105: 'الفيل', 106: 'قريش', 107: 'الماعون', 108: 'الكوثر', 109: 'الكافرون', 110: 'النصر',
+  111: 'المسد', 112: 'الإخلاص', 113: 'الفلق', 114: 'الناس'
+}
+
 interface QuranReaderProps {
   juzNumber: number
   token: string
@@ -100,10 +116,13 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
   }
 
   const groupedAyahs = ayahs.reduce((acc, ayah) => {
-    const surahNumber = ayah.surah.number
+    // Handle different API response structures
+    const surah = ayah.surah || ayah.surahNumber || { number: ayah.surahNumber || 1, englishName: 'Surah', name: '' }
+    const surahNumber = surah.number || ayah.surahNumber || 1
+    
     if (!acc[surahNumber]) {
       acc[surahNumber] = {
-        surah: ayah.surah,
+        surah: surah,
         ayahs: []
       }
     }
@@ -142,7 +161,7 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
               <select
                 value={viewMode}
                 onChange={(e) => setViewMode(e.target.value as any)}
-                className="px-3 py-2 border rounded-lg"
+                className="px-3 py-2 bg-gray-200 border border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-islamic-green focus:border-transparent"
               >
                 <option value="juz">By Juz</option>
                 <option value="surah">By Surah</option>
@@ -160,9 +179,9 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                       onJuzChange?.(newJuz)
                     }}
                     disabled={currentJuz === 1}
-                    className="p-2 bg-gray-100 rounded disabled:opacity-50"
+                    className="p-2 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 transition-colors"
                   >
-                    <ChevronLeft className="w-5 h-5" />
+                    <ChevronLeft className="w-5 h-5 text-gray-700" />
                   </button>
                   <span className="px-3 py-1 bg-islamic-green text-white rounded">{currentJuz}</span>
                   <button
@@ -174,9 +193,9 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                       onJuzChange?.(newJuz)
                     }}
                     disabled={currentJuz === 30}
-                    className="p-2 bg-gray-100 rounded disabled:opacity-50"
+                    className="p-2 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 transition-colors"
                   >
-                    <ChevronRight className="w-5 h-5" />
+                    <ChevronRight className="w-5 h-5 text-gray-700" />
                   </button>
                 </div>
               )}
@@ -195,17 +214,17 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                   <button
                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
-                    className="p-2 bg-gray-100 rounded disabled:opacity-50"
+                    className="p-2 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 transition-colors"
                   >
-                    <ChevronLeft className="w-5 h-5" />
+                    <ChevronLeft className="w-5 h-5 text-gray-700" />
                   </button>
                   <span className="px-3 py-1 bg-islamic-green text-white rounded">{currentPage}</span>
                   <button
                     onClick={() => setCurrentPage(Math.min(604, currentPage + 1))}
                     disabled={currentPage === 604}
-                    className="p-2 bg-gray-100 rounded disabled:opacity-50"
+                    className="p-2 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 transition-colors"
                   >
-                    <ChevronRight className="w-5 h-5" />
+                    <ChevronRight className="w-5 h-5 text-gray-700" />
                   </button>
                 </div>
               )}
@@ -241,8 +260,12 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                   }}
                   className="p-3 text-left border rounded-lg hover:bg-islamic-green/10 hover:border-islamic-green transition-colors"
                 >
-                  <div className="font-semibold">Surah {num}</div>
-                  <div className="text-sm text-gray-600">Click to read</div>
+                  <div className="font-semibold">
+                    <span className="arabic-text" style={{fontSize: '1.25rem'}}>{SURAH_NAMES[num]}</span>
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    Surah {num}
+                  </div>
                 </button>
               ))}
             </div>
@@ -267,14 +290,32 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
 
             <div className="bg-white rounded-xl p-8 shadow-lg">
               <div className="space-y-8">
-                {ayahs.map((ayah: any) => (
-                  <div key={ayah.number} className="border-b border-gray-100 pb-6 last:border-b-0">
-                    <div className="arabic-text text-3xl leading-loose mb-4 text-right" dir="rtl">
-                      {ayah.text}
-                      <span className="inline-block mr-3 text-islamic-green font-bold">
-                        ﴿{ayah.numberInSurah}﴾
-                      </span>
+                {/* Separate Bismillah for Surahs 2-114 */}
+                {ayahs[0]?.numberInSurah === 1 && surah.number !== 1 && (
+                  <div className="border-b border-gray-100 pb-6 mb-6">
+                    <div className="arabic-text text-3xl leading-loose mb-4 text-right" dir="rtl" style={{color: '#2E7D32'}}>
+                      بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
                     </div>
+                  </div>
+                )}
+                {ayahs.map((ayah: any, index: number) => {
+                  // For Surahs 2-114, skip displaying ayah number for first ayah if it contains Bismillah
+                  const shouldSkipNumber = surah.number !== 1 && index === 0 && ayah.text.startsWith('بِسْمِ اللَّهِ')
+                  
+                  return (
+                    <div key={ayah.number} className="border-b border-gray-100 pb-6 last:border-b-0">
+                      <div className="arabic-text text-3xl leading-loose mb-4 text-right" dir="rtl">
+                        {/* Remove Bismillah from first ayah if it exists */}
+                        {surah.number !== 1 && index === 0 && ayah.text.startsWith('بِسْمِ اللَّهِ')
+                          ? ayah.text.replace(/^بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\s*/, '')
+                          : ayah.text
+                        }
+                        {!shouldSkipNumber && (
+                          <span className="inline-block mr-3 text-islamic-green font-bold">
+                            ﴿{ayah.numberInSurah}﴾
+                          </span>
+                        )}
+                      </div>
 
                     <div className="flex items-center justify-between text-sm text-gray-500">
                       <div className="flex items-center space-x-4">
@@ -290,7 +331,8 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                       </div>
                     </div>
                   </div>
-                ))}
+                )}
+              )}
               </div>
             </div>
           </div>

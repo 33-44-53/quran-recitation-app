@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import Auth from './components/Auth'
+import LandingPage from './components/LandingPage'
 import GoalSelection from './components/GoalSelection'
 import Dashboard from './components/Dashboard'
 import QuranReader from './components/QuranReader'
+import FreeReading from './components/FreeReading'
 import { Home as HomeIcon, BookOpen, Play } from 'lucide-react'
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<'auth' | 'setup' | 'dashboard' | 'reader'>('auth')
+  const [currentView, setCurrentView] = useState<'landing' | 'auth' | 'setup' | 'dashboard' | 'reader' | 'freereading'>('landing')
   const [token, setToken] = useState<string | null>(null)
   const [userId, setUserId] = useState<number | null>(null)
   const [userName, setUserName] = useState<string>('')
@@ -61,6 +63,14 @@ export default function Home() {
     setCurrentView('dashboard')
   }
 
+  const handleFreeReading = () => {
+    setCurrentView('freereading')
+  }
+
+  const handleBackFromFreeReading = () => {
+    setCurrentView('dashboard')
+  }
+
   const handleStartReading = (juzNumber: number) => {
     setSelectedJuz(juzNumber)
     localStorage.setItem('lastReadJuz', juzNumber.toString())
@@ -83,7 +93,19 @@ export default function Home() {
     setToken(null)
     setUserId(null)
     setUserName('')
+    setCurrentView('landing')
+  }
+
+  const handleSignUp = () => {
     setCurrentView('auth')
+  }
+
+  const handleSignIn = () => {
+    setCurrentView('auth')
+  }
+
+  const handleBackToLanding = () => {
+    setCurrentView('landing')
   }
 
   const handleContinueReading = () => {
@@ -128,6 +150,7 @@ export default function Home() {
           userName={userName}
           onStartReading={handleStartReading}
           onLogout={handleLogout}
+          onFreeReading={handleFreeReading}
         />
         {/* Continue Reading Floating Button */}
         <div className="fixed bottom-6 right-6 z-40">
@@ -144,12 +167,20 @@ export default function Home() {
     )
   }
 
+  if (currentView === 'landing') {
+    return <LandingPage onSignUp={handleSignUp} onSignIn={handleSignIn} onFreeReading={handleFreeReading} />
+  }
+
   if (currentView === 'auth') {
-    return <Auth onLogin={handleLogin} />
+    return <Auth onLogin={handleLogin} onBack={handleBackToLanding} />
   }
 
   if (currentView === 'setup') {
-    return <GoalSelection token={token!} onGoalSet={handleGoalSet} />
+    return <GoalSelection token={token!} onGoalSet={handleGoalSet} onFreeReading={handleFreeReading} />
+  }
+
+  if (currentView === 'freereading') {
+    return <FreeReading onBack={handleBackFromFreeReading} />
   }
 
   if (currentView === 'reader') {

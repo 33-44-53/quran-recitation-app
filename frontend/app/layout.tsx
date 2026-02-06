@@ -4,8 +4,8 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Qur\'an Recitation - Ramadan Companion',
-  description: 'Complete the Qur\'an during Ramadan with personalized reading goals',
+  title: 'Tilawa - Your Journey Through the Quran',
+  description: 'Track your daily reading, set goals, and deepen your connection with the Holy Quran',
 }
 
 export default function RootLayout({

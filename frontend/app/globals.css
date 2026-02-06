@@ -2,19 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* KFGQPC Uthmanic Script HAFS Font from CDN */
+/* KFGQPC Uthmanic Script HAFS Font */
 @font-face {
   font-family: 'KFGQPC Uthmanic Script HAFS';
-  src: url('https://cdn.jsdelivr.net/gh/MaherJendoubi/KFGQPC-Uthmanic-Script-HAFS/fonts/KFGQPC_Uthmanic_Script_HAFS_regular.ttf') format('truetype');
+  src: url('https://cdn.jsdelivr.net/gh/MaherJendoubi/KFGQPC-Uthmanic-Script-HAFS@main/fonts/KFGQPC_Uthmanic_Script_HAFS_regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-/* Alternative Quranic fonts */
 @font-face {
-  font-family: 'Quranic';
-  src: url('https://fonts.quran.com/uthmanic.ttf') format('truetype');
+  font-family: 'KFGQPC Uthmanic Script HAFS';
+  src: url('https://cdn.jsdelivr.net/npm/quran-font@1.0.0/ttf/KFGQPC_Uthmanic_Script_HAFS.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -44,9 +43,10 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-/* Fix for Arabic text rendering - KFGQPC Uthmanic Script */
+/* Quran Arabic Text - KFGQPC Uthmanic Script HAFS */
 .arabic-text {
-  font-family: 'KFGQPC Uthmanic Script HAFS', 'Quranic', 'Uthmanic', 'Noto Naskh Arabic', 'Segoe UI', 'Tahoma', 'Arial', sans-serif;
+  font-family: 'KFGQPC Uthmanic Script HAFS', 'Uthmanic Script', 'HAFS', 
+               ' Scheherazade New', 'Arial', sans-serif;
   direction: rtl;
   text-align: right;
   line-height: 2.5;

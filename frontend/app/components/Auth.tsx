@@ -1,14 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { Book, Mail, Lock, User } from 'lucide-react'
+import { Book, Mail, Lock, User, ArrowLeft } from 'lucide-react'
 import axios from 'axios'
 
 interface AuthProps {
   onLogin: (token: string, userId: number, name: string) => void
+  onBack?: () => void
 }
 
-export default function Auth({ onLogin }: AuthProps) {
+export default function Auth({ onLogin, onBack }: AuthProps) {
   const [isLogin, setIsLogin] = useState(true)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -42,6 +43,16 @@ export default function Auth({ onLogin }: AuthProps) {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-islamic-green/10 to-islamic-dark/5">
       <div className="max-w-md w-full">
+        {/* Back Button */}
+        {onBack && (
+          <button
+            onClick={onBack}
+            className="flex items-center text-gray-600 hover:text-islamic-green mb-6 transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5 mr-2" />
+            <span>Back</span>
+          </button>
+        )}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="bg-islamic-green p-4 rounded-full">
