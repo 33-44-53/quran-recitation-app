@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+pydantic[email]
+httpx
+passlib[bcrypt]
+pyjwt
+python-multipart
