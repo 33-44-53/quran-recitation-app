@@ -20,6 +20,9 @@ security = HTTPBearer()
 
 # Database configuration - PostgreSQL via environment variable (for Neon) or MySQL locally
 DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:@localhost/quran_app")
+# Use psycopg (v3) for PostgreSQL
+if DATABASE_URL.startswith("postgresql"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg://")
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
