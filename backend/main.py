@@ -11,23 +11,29 @@ import httpx
 from typing import Optional
 import jwt
 import secrets
+import os
 
 SECRET_KEY = secrets.token_urlsafe(32)
 ALGORITHM = "HS256"
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./quran_app.db"
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+# Database configuration - use MySQL if DATABASE_URL is set, otherwise SQLite
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./quran_app.db")
+
+if DATABASE_URL.startswith("mysql"):
+    engine = create_engine(DATABASE_URL)
+else:
+    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True)
-    password = Column(String)
-    name = Column(String)
+    email = Column(String(255), unique=True, index=True)
+    password = Column(String(255))
+    name = Column(String(255))
     ramadan_goal = Column(Integer, default=1)
     ramadan_start_date = Column(DateTime)
     created_at = Column(DateTime, default=datetime.utcnow)
