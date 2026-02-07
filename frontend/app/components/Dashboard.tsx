@@ -186,32 +186,32 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
   return (
     <div className="min-h-screen p-4 bg-gradient-to-br from-islamic-green/5 to-islamic-dark/5 dark:from-gray-900 dark:to-gray-800">
       {/* Real-time Clock Header */}
-      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 mb-6">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center space-x-4">
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-3 sm:p-4 mb-4 sm:mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
             <div className="flex items-center space-x-2 text-islamic-green">
-              <Clock className="w-6 h-6" />
-              <span className="text-2xl font-bold font-mono">{formatTime(currentTime)}</span>
+              <Clock className="w-5 h-5 sm:w-6 sm:h-6" />
+              <span className="text-lg sm:text-2xl font-bold font-mono">{formatTime(currentTime)}</span>
             </div>
-            <div className="text-gray-600 dark:text-gray-300">
+            <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
               <span className="font-medium">{formatDate(currentTime)}</span>
               <span className="mx-2">•</span>
               <span className="font-medium text-islamic-green" dir="ltr">{getHijriDate()}</span>
             </div>
           </div>
           
-          <div className="flex items-center space-x-4">
-            <div className="bg-islamic-green/10 dark:bg-islamic-green/20 px-4 py-2 rounded-lg">
-              <span className="text-sm text-gray-600 dark:text-gray-300">Ramadan Day </span>
-              <span className="text-xl font-bold text-islamic-green">{getRamadanDay()}/30</span>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="bg-islamic-green/10 dark:bg-islamic-green/20 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg">
+              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Day </span>
+              <span className="text-base sm:text-xl font-bold text-islamic-green">{getRamadanDay()}/30</span>
             </div>
             
             <button
               onClick={() => setShowEditPlan(true)}
-              className="flex items-center space-x-2 px-3 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              className="flex items-center space-x-1 sm:space-x-2 px-2 py-1.5 sm:px-3 sm:py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
-              <Edit2 className="w-4 h-4 text-gray-600 dark:text-gray-300" />
-              <span className="text-sm text-gray-600 dark:text-gray-300">Edit Plan</span>
+              <Edit2 className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 dark:text-gray-300" />
+              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Edit</span>
             </button>
           </div>
         </div>
@@ -267,127 +267,128 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
       )}
 
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 sm:mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-islamic-dark dark:text-white">As-salamu alaykum, {userName}</h1>
-            <p className="text-gray-600 dark:text-gray-300">
+            <h1 className="text-xl sm:text-3xl font-bold text-islamic-dark dark:text-white">As-salamu alaykum, {userName}</h1>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
               Day {todaysPlan?.day || getRamadanDay()} of Ramadan • {userData?.ramadan_goal || 1} juz daily
             </p>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             {onFreeReading && (
               <button
                 onClick={onFreeReading}
-                className="flex items-center space-x-2 px-4 py-2 bg-islamic-green text-white rounded-lg hover:bg-islamic-dark transition-colors"
+                className="flex items-center space-x-1 sm:space-x-2 px-3 py-2 sm:px-4 sm:py-2 bg-islamic-green text-white rounded-lg hover:bg-islamic-dark transition-colors text-sm sm:text-base"
               >
-                <BookOpen className="w-5 h-5" />
-                <span>Free Reading</span>
+                <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">Free Reading</span>
+                <span className="sm:hidden">Read</span>
               </button>
             )}
             <button
               onClick={onLogout}
-              className="flex items-center space-x-2 px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-islamic-green transition-colors"
+              className="flex items-center space-x-1 sm:space-x-2 px-3 py-2 sm:px-4 sm:py-2 text-gray-600 dark:text-gray-300 hover:text-islamic-green transition-colors text-sm sm:text-base"
             >
-              <LogOut className="w-5 h-5" />
+              <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Logout</span>
             </button>
           </div>
         </div>
 
         {stats && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-              <div className="flex items-center justify-between">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-lg">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Full Reading</p>
-                  <p className="text-3xl font-bold text-islamic-green">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Full Reading</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-islamic-green">
                     {stats.quran_completions.toFixed(1)}x
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Complete readings</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 hidden sm:block">Complete readings</p>
                 </div>
-                <Book className="w-10 h-10 text-islamic-green" />
+                <Book className="w-8 h-8 sm:w-10 sm:h-10 text-islamic-green" />
               </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-              <div className="flex items-center justify-between">
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-lg">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Overall Progress</p>
-                  <p className="text-3xl font-bold text-blue-600">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Overall</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-blue-600">
                     {stats.completion_percentage}%
                   </p>
                 </div>
-                <TrendingUp className="w-10 h-10 text-blue-600" />
+                <TrendingUp className="w-8 h-8 sm:w-10 sm:h-10 text-blue-600" />
               </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-              <div className="flex items-center justify-between">
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-lg">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Today's Progress</p>
-                  <p className="text-3xl font-bold text-purple-600">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Today</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-purple-600">
                     {stats.today_percentage}%
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    {stats.today_completed}/{stats.today_required} Juz
+                    {stats.today_completed}/{stats.today_required}
                   </p>
                 </div>
-                <Target className="w-10 h-10 text-purple-600" />
+                <Target className="w-8 h-8 sm:w-10 sm:h-10 text-purple-600" />
               </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-              <div className="flex items-center justify-between">
+            <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-lg">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Days Left</p>
-                  <p className="text-3xl font-bold text-orange-600">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Days Left</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-orange-600">
                     {stats.days_remaining}
                   </p>
                 </div>
-                <Calendar className="w-10 h-10 text-orange-600" />
+                <Calendar className="w-8 h-8 sm:w-10 sm:h-10 text-orange-600" />
               </div>
             </div>
           </div>
         )}
 
         {todaysPlan && (
-          <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg mb-8">
-            <h2 className="text-2xl font-semibold mb-4 dark:text-white">Today's Reading Plan</h2>
-            <div className="space-y-3">
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-lg mb-6 sm:mb-8">
+            <h2 className="text-lg sm:text-2xl font-semibold mb-3 sm:mb-4 dark:text-white">Today's Plan</h2>
+            <div className="space-y-2 sm:space-y-3">
               {todaysPlan.required_juz.map((juzNumber: number) => {
                 const isCompleted = todaysPlan.completed_juz.includes(juzNumber)
                 return (
                   <div
                     key={juzNumber}
-                    className={`flex items-center justify-between p-4 rounded-lg border-2 ${
+                    className={`flex items-center justify-between p-3 sm:p-4 rounded-lg border-2 ${
                       isCompleted ? 'bg-green-50 border-green-500' : 'bg-gray-50 border-gray-200'
                     }`}
                   >
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold ${
+                    <div className="flex items-center space-x-2 sm:space-x-4">
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-sm sm:text-base ${
                         isCompleted ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-700'
                       }`}>
                         {juzNumber}
                       </div>
                       <div>
-                        <div className="font-semibold text-lg dark:text-white">Juz {juzNumber}</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">≈ 20 pages</div>
+                        <div className="font-semibold text-base sm:text-lg dark:text-white">Juz {juzNumber}</div>
+                        <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">≈ 20 pages</div>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
                       <button
                         onClick={() => onStartReading(juzNumber)}
-                        className="px-4 py-2 bg-islamic-green text-white rounded-lg hover:bg-islamic-dark transition-colors"
+                        className="px-3 py-1.5 sm:px-4 sm:py-2 bg-islamic-green text-white rounded-lg hover:bg-islamic-dark transition-colors text-sm sm:text-base"
                       >
                         Read
                       </button>
                       <button
                         onClick={() => toggleJuzCompletion(juzNumber, todaysPlan.day, isCompleted)}
-                        className={`p-2 rounded-lg ${
+                        className={`p-1.5 sm:p-2 rounded-lg ${
                           isCompleted ? 'text-green-600' : 'text-gray-400 hover:text-green-600'
                         }`}
                       >
-                        <CheckCircle className="w-6 h-6" />
+                        <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                       </button>
                     </div>
                   </div>
@@ -397,16 +398,16 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
           </div>
         )}
 
-        <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg mb-8">
-          <div className="flex items-center space-x-3">
-            <Heart className="w-6 h-6 text-red-500" />
-            <p className="text-lg italic text-gray-700 dark:text-gray-300">{motivation}</p>
+        <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-lg mb-6 sm:mb-8">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-red-500" />
+            <p className="text-sm sm:text-lg italic text-gray-700 dark:text-gray-300">{motivation}</p>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg">
-          <h2 className="text-xl font-semibold mb-4 dark:text-white">Ramadan Calendar</h2>
-          <div className="grid grid-cols-7 gap-2">
+        <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-lg">
+          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 dark:text-white">Calendar</h2>
+          <div className="grid grid-cols-7 gap-1 sm:gap-2">
             {dailyPlan.map((day) => {
               const completionRate = day.required_juz.length > 0 
                 ? (day.completed_juz.length / day.required_juz.length) * 100 
@@ -415,7 +416,7 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
               return (
                 <div
                   key={day.day}
-                  className={`p-3 rounded-lg text-center border-2 ${
+                  className={`p-2 sm:p-3 rounded-lg text-center border-2 ${
                     day.is_today
                       ? 'border-islamic-green bg-green-50'
                       : day.is_future
@@ -427,8 +428,8 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
                       : 'border-red-200 bg-red-50'
                   }`}
                 >
-                  <div className={`font-bold ${day.is_today ? 'text-islamic-green' : 'text-gray-800'}`}>{day.day}</div>
-                  <div className={`text-xs mt-1 font-medium ${day.is_today ? 'text-islamic-dark' : 'text-gray-700'}`}>
+                  <div className={`font-bold text-sm sm:text-base ${day.is_today ? 'text-islamic-green' : 'text-gray-800'}`}>{day.day}</div>
+                  <div className={`text-xs mt-0.5 sm:mt-1 font-medium ${day.is_today ? 'text-islamic-dark' : 'text-gray-700'}`}>
                     {day.completed_juz.length}/{day.required_juz.length}
                   </div>
                   <div className={`text-xs font-semibold ${completionRate === 100 ? 'text-green-600' : completionRate > 0 ? 'text-yellow-600' : 'text-red-400'}`}>{Math.round(completionRate)}%</div>
