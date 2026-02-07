@@ -284,47 +284,29 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
             </div>
 
             <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg">
-              <div className="space-y-8">
-                {ayahs[0]?.numberInSurah === 1 && surah.number !== 1 && (
-                  <div className="border-b border-gray-100 dark:border-gray-800 pb-6 mb-6">
-                    <div className="arabic-text text-3xl leading-loose mb-4 text-right" dir="rtl" style={{color: '#2E7D32'}}>
-                      بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
-                    </div>
+              {ayahs[0]?.numberInSurah === 1 && surah.number !== 1 && (
+                <div className="text-center mb-6">
+                  <div className="arabic-text text-3xl leading-loose text-islamic-green" dir="rtl">
+                    بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
                   </div>
-                )}
+                </div>
+              )}
+              <div className="arabic-text text-3xl leading-loose text-right text-gray-900 dark:text-gray-100" dir="rtl">
                 {ayahs.map((ayah: any, index: number) => {
                   const shouldSkipNumber = surah.number !== 1 && index === 0 && ayah.text.startsWith('بِسْمِ اللَّهِ')
+                  const ayahText = shouldSkipNumber 
+                    ? ayah.text.replace(/^بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\s*/, '')
+                    : ayah.text
                   
                   return (
-                    <div key={ayah.number} className="border-b border-gray-100 dark:border-gray-800 pb-6 last:border-b-0">
-                      <div className="arabic-text text-3xl leading-loose mb-4 text-right text-gray-900 dark:text-gray-100" dir="rtl">
-                        {surah.number !== 1 && index === 0 && ayah.text.startsWith('بِسْمِ اللَّهِ')
-                          ? ayah.text.replace(/^بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\s*/, '')
-                          : ayah.text
-                        }
-                        {!shouldSkipNumber && (
-                          <span className="inline-block mr-3 text-islamic-green font-bold">
-                            ﴿{ayah.numberInSurah}﴾
-                          </span>
-                        )}
-                      </div>
-
-                    <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                      <div className="flex items-center space-x-4">
-                        <span>Ayah {ayah.numberInSurah}</span>
-                        <span>•</span>
-                        <span>Juz {ayah.juz}</span>
-                        {ayah.page && (
-                          <>
-                            <span>•</span>
-                            <span>Page {ayah.page}</span>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              )}
+                    <span key={ayah.number}>
+                      {ayahText}{' '}
+                      <span className="text-islamic-green font-bold">
+                        ﴿{ayah.numberInSurah}﴾
+                      </span>{' '}
+                    </span>
+                  )
+                })}
               </div>
             </div>
           </div>

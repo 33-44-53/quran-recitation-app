@@ -382,42 +382,30 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
               </div>
             )}
 
-            <div className="space-y-8">
+            {ayahs[0]?.numberInSurah === 1 && currentData?.number !== 1 && (
+              <div className="text-center mb-6">
+                <div className="arabic-text text-3xl leading-loose text-islamic-green" dir="rtl">
+                  بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+                </div>
+              </div>
+            )}
 
+            <div className="arabic-text text-3xl leading-loose text-right text-gray-900" dir="rtl">
               {ayahs.map((ayah: any, index: number) => {
                 let ayahText = ayah.text || ''
-                
-                // Remove any embedded verse markers from API response (various formats)
-                // This handles ﴿1﴾, ۞, or other end-of-ayah markers
                 ayahText = ayahText.replace(/[﴾۞]\d*[﴿۝]/g, '').replace(/[\s]+$/, '')
                 
-                // For Surahs 2-114, remove Bismillah from the beginning
                 if (currentData?.number !== 1 && index === 0 && /^بِسْمِ/.test(ayahText)) {
                   ayahText = ayahText.replace(/^بِسْمِ\s*ٱللَّهِ\s*ٱلرَّحْمَٰنِ\s*ٱلرَّحِيمِ\s*/u, '').trim()
                 }
 
                 return (
-                  <div key={ayah.number} className="border-b border-gray-100 pb-6 last:border-b-0">
-                    <div className="arabic-text text-3xl leading-loose mb-4 text-right" dir="rtl">
-                      {ayahText}
-                      <span className="inline-block mr-3 text-islamic-green font-bold">
-                        ﴿{ayah.numberInSurah}﴾
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm text-gray-500 mt-4">
-                      <div className="flex items-center space-x-4">
-                        <span>Ayah {ayah.numberInSurah}</span>
-                        <span>•</span>
-                        <span>Juz {ayah.juz}</span>
-                        {ayah.page && (
-                          <>
-                            <span>•</span>
-                            <span>Page {ayah.page}</span>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                  <span key={ayah.number}>
+                    {ayahText}{' '}
+                    <span className="text-islamic-green font-bold">
+                      ﴿{ayah.numberInSurah}﴾
+                    </span>{' '}
+                  </span>
                 )
               })}
             </div>
