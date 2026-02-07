@@ -18,8 +18,8 @@ ALGORITHM = "HS256"
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
 
-# Database configuration - PostgreSQL via environment variable (for Neon) or MySQL locally
-DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:@localhost/quran_app")
+# Database configuration - PostgreSQL (Neon)
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_jQehWAIi9Cw8@ep-summer-band-aii7qqo7-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require")
 # Use psycopg (v3) for PostgreSQL
 if DATABASE_URL.startswith("postgresql"):
     DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg://")
