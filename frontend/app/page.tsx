@@ -9,6 +9,7 @@ import QuranReader from './components/QuranReader'
 import FreeReading from './components/FreeReading'
 import ThemeToggle from './components/ThemeToggle'
 import { Home as HomeIcon, BookOpen, Play } from 'lucide-react'
+import { API_URL } from './config/api'
 
 export default function Home() {
   const [currentView, setCurrentView] = useState<'landing' | 'auth' | 'setup' | 'dashboard' | 'reader' | 'freereading'>('landing')
@@ -37,7 +38,7 @@ export default function Home() {
 
   const checkUserGoal = async (authToken: string) => {
     try {
-      const response = await fetch('http://localhost:8000/me', {
+      const response = await fetch(`${API_URL}/me`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       })
       const data = await response.json()

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { ArrowLeft, BookOpen, ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react'
 import axios from 'axios'
+import { API_URL } from '../config/api'
 
 // Complete list of 114 Surahs with Arabic names
 const SURAH_NAMES: Record<number, string> = {
@@ -77,11 +78,11 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
     try {
       let response
       if (viewMode === 'juz') {
-        response = await axios.get(`http://localhost:8000/quran/juz/${currentJuz}`)
+        response = await axios.get(`${API_URL}/quran/juz/${currentJuz}`)
       } else if (viewMode === 'surah') {
-        response = await axios.get(`http://localhost:8000/quran/surah/${currentSurah}`)
+        response = await axios.get(`${API_URL}/quran/surah/${currentSurah}`)
       } else {
-        response = await axios.get(`http://localhost:8000/quran/page/${currentPage}`)
+        response = await axios.get(`${API_URL}/quran/page/${currentPage}`)
       }
       setAyahs(response.data.data.ayahs || [])
     } catch (error) {
@@ -94,7 +95,7 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
   const markAsRead = async () => {
     try {
       await axios.post(
-        'http://localhost:8000/progress',
+        `${API_URL}/progress`,
         {
           juz_number: viewMode === 'juz' ? currentJuz : null,
           surah_number: viewMode === 'surah' ? currentSurah : null,

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Book, Calendar, Target } from 'lucide-react'
 import axios from 'axios'
+import { API_URL } from '../config/api'
 
 interface GoalSelectionProps {
   token: string
@@ -25,7 +26,7 @@ export default function GoalSelection({ token, onGoalSet, onFreeReading }: GoalS
     setLoading(true)
     try {
       await axios.post(
-        'http://localhost:8000/set-goal',
+        `${API_URL}/set-goal`,
         {
           ramadan_goal: selectedGoal,
           ramadan_start_date: new Date().toISOString()

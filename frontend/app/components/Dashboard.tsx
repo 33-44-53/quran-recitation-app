@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Book, Calendar, TrendingUp, LogOut, Heart, CheckCircle, Target, Clock, Edit2, BookOpen } from 'lucide-react'
 import axios from 'axios'
+import { API_URL } from '../config/api'
 
 interface DashboardProps {
   token: string
@@ -40,10 +41,10 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
     try {
       const headers = { 'Authorization': `Bearer ${token}` }
       const [userResponse, planResponse, statsResponse, motivationResponse] = await Promise.all([
-        axios.get('http://localhost:8000/me', { headers }),
-        axios.get('http://localhost:8000/daily-plan', { headers }),
-        axios.get('http://localhost:8000/stats', { headers }),
-        axios.get('http://localhost:8000/motivation')
+        axios.get(`${API_URL}/me`, { headers }),
+        axios.get(`${API_URL}/daily-plan`, { headers }),
+        axios.get(`${API_URL}/stats`, { headers }),
+        axios.get(`${API_URL}/motivation`)
       ])
 
       setUserData(userResponse.data)
@@ -68,7 +69,7 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
   const toggleJuzCompletion = async (juzNumber: number, dayNumber: number, completed: boolean) => {
     try {
       await axios.post(
-        'http://localhost:8000/progress',
+        `${API_URL}/progress`,
         {
           juz_number: juzNumber,
           day_number: dayNumber,
@@ -88,7 +89,7 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
     e.preventDefault()
     try {
       await axios.post(
-        'http://localhost:8000/set-goal',
+        `${API_URL}/set-goal`,
         {
           ramadan_goal: editForm.ramadan_goal,
           ramadan_start_date: editForm.ramadan_start_date

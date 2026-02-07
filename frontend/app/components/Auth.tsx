@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Book, Mail, Lock, User, ArrowLeft } from 'lucide-react'
 import axios from 'axios'
+import { API_URL } from '../config/api'
 
 interface AuthProps {
   onLogin: (token: string, userId: number, name: string) => void
@@ -26,7 +27,7 @@ export default function Auth({ onLogin, onBack }: AuthProps) {
       const endpoint = isLogin ? '/login' : '/signup'
       const data = isLogin ? { email, password } : { email, password, name }
       
-      const response = await axios.post(`http://localhost:8000${endpoint}`, data)
+      const response = await axios.post(`${API_URL}${endpoint}`, data)
       
       localStorage.setItem('token', response.data.access_token)
       localStorage.setItem('userId', response.data.user_id.toString())
