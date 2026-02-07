@@ -18,7 +18,7 @@ ALGORITHM = "HS256"
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
 
-# Database configuration - MySQL via environment variable
+# Database configuration - PostgreSQL via environment variable (for Neon) or MySQL locally
 DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:@localhost/quran_app")
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
