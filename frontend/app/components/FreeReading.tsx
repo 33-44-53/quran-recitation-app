@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { BookOpen, ChevronLeft, ChevronRight, Search, Play, Home } from 'lucide-react'
+import { API_URL } from '../config/api'
 
 interface FreeReadingProps {
   onBack: () => void
@@ -148,7 +149,7 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
   const fetchByJuz = async (juz: number) => {
     setLoading(true)
     try {
-      const response = await fetch(`http://localhost:8000/quran/juz/${juz}`)
+      const response = await fetch(`${API_URL}/quran/juz/${juz}`)
       const data = await response.json()
       // API returns: { code, status, data: { number, juz, ayahs: [...] } }
       setCurrentData(data.data)
@@ -164,7 +165,7 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
   const fetchBySurah = async (surah: number) => {
     setLoading(true)
     try {
-      const response = await fetch(`http://localhost:8000/quran/surah/${surah}`)
+      const response = await fetch(`${API_URL}/quran/surah/${surah}`)
       const data = await response.json()
       // API returns: { code, status, data: { number, name, englishName, ayahs: [...] } }
       setCurrentData(data.data)
@@ -181,7 +182,7 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
   const fetchByPage = async (page: number) => {
     setLoading(true)
     try {
-      const response = await fetch(`http://localhost:8000/quran/page/${page}`)
+      const response = await fetch(`${API_URL}/quran/page/${page}`)
       const data = await response.json()
       // API returns: { code, status, data: { number, ayahs: [...] } }
       setCurrentData(data.data)
