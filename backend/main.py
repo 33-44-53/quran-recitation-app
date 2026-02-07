@@ -18,13 +18,9 @@ ALGORITHM = "HS256"
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
 
-# Database configuration - use MySQL if DATABASE_URL is set, otherwise local XAMPP MySQL
+# Database configuration - MySQL via environment variable
 DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:@localhost/quran_app")
-
-if DATABASE_URL.startswith("mysql"):
-    engine = create_engine(DATABASE_URL)
-else:
-    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
