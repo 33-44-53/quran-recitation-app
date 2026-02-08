@@ -212,19 +212,19 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <div className="bg-white shadow-sm sticky top-0 z-10">
+      <div className="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-10 border-b dark:border-gray-700">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <button
               onClick={onBack}
-              className="flex items-center text-gray-600 hover:text-islamic-green"
+              className="flex items-center text-gray-600 dark:text-gray-300 hover:text-islamic-green dark:hover:text-islamic-green"
             >
               <Home className="w-5 h-5 mr-2" />
               <span>Back</span>
             </button>
-            <h1 className="text-xl font-bold text-islamic-dark">Free Reading</h1>
+            <h1 className="text-xl font-bold text-islamic-dark dark:text-white">Free Reading</h1>
             <div className="w-20"></div>
           </div>
 
@@ -235,7 +235,7 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
               className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
                 searchMode === 'juz'
                   ? 'bg-islamic-green text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               By Juz
@@ -245,7 +245,7 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
               className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
                 searchMode === 'surah'
                   ? 'bg-islamic-green text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               By Surah
@@ -255,7 +255,7 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
               className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
                 searchMode === 'page'
                   ? 'bg-islamic-green text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               By Page
@@ -268,27 +268,27 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
               <button
                 onClick={() => navigateJuz('prev')}
                 disabled={juzNumber === 1}
-                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 text-gray-800"
+                className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 text-gray-800 dark:text-gray-200"
               >
-                <ChevronLeft className="w-5 h-5 text-gray-800" />
+                <ChevronLeft className="w-5 h-5" />
               </button>
               <div className="flex items-center space-x-2">
-                <span className="text-gray-600">Juz</span>
+                <span className="text-gray-600 dark:text-gray-400">Juz</span>
                 <input
                   type="number"
                   value={juzNumber}
                   onChange={(e) => setJuzNumber(parseInt(e.target.value) || 1)}
                   min="1"
                   max="30"
-                  className="w-16 text-center px-2 py-1 border rounded-lg text-gray-900 bg-white"
+                  className="w-16 text-center px-2 py-1 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                 />
               </div>
               <button
                 onClick={() => navigateJuz('next')}
                 disabled={juzNumber === 30}
-                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 text-gray-800"
+                className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 text-gray-800 dark:text-gray-200"
               >
-                <ChevronRight className="w-5 h-5 text-gray-800" />
+                <ChevronRight className="w-5 h-5" />
               </button>
               <button
                 onClick={() => fetchByJuz(juzNumber)}
@@ -308,7 +308,7 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
                   setSurahNumber(val)
                   fetchBySurah(val)
                 }}
-                className="flex-1 px-4 py-2 border rounded-lg text-gray-900 bg-white"
+                className="flex-1 px-4 py-2 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-800"
               >
                 {surahNames.map((surah) => (
                   <option key={surah.number} value={surah.number}>
@@ -329,13 +329,13 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
                   }
                 }}
                 disabled={pageNumber === 1}
-                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 text-gray-800"
+                className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 text-gray-800 dark:text-gray-200"
               >
-                <ChevronLeft className="w-5 h-5 text-gray-800" />
+                <ChevronLeft className="w-5 h-5" />
               </button>
               <div className="flex items-center space-x-2">
-                <span className="text-gray-600">Page</span>
-                <span className="text-lg font-medium text-gray-900">{pageNumber}</span>
+                <span className="text-gray-600 dark:text-gray-400">Page</span>
+                <span className="text-lg font-medium text-gray-900 dark:text-white">{pageNumber}</span>
               </div>
               <button
                 onClick={() => {
@@ -345,9 +345,9 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
                   }
                 }}
                 disabled={pageNumber === 604}
-                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-50 text-gray-800"
+                className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 text-gray-800 dark:text-gray-200"
               >
-                <ChevronRight className="w-5 h-5 text-gray-800" />
+                <ChevronRight className="w-5 h-5" />
               </button>
             </div>
           )}
@@ -361,15 +361,15 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-islamic-green"></div>
           </div>
         ) : ayahs.length > 0 ? (
-          <div className="bg-white rounded-xl shadow-lg p-8">
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-8">
             {/* Surah Info (if viewing by surah) */}
             {currentData?.name && (
-              <div className="text-center mb-8 pb-6 border-b border-gray-100">
-                <h2 className="text-3xl font-bold text-islamic-dark mb-2">
+              <div className="text-center mb-8 pb-6 border-b border-gray-100 dark:border-gray-800">
+                <h2 className="text-3xl font-bold text-islamic-dark dark:text-white mb-2">
                   {currentData.name}
                 </h2>
-                <p className="text-gray-600">{currentData.englishName}</p>
-                <p className="text-gray-500 text-sm">{currentData.englishNameTranslation}</p>
+                <p className="text-gray-600 dark:text-gray-400">{currentData.englishName}</p>
+                <p className="text-gray-500 dark:text-gray-500 text-sm">{currentData.englishNameTranslation}</p>
               </div>
             )}
 
@@ -390,7 +390,7 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
               </div>
             )}
 
-            <div className="arabic-text text-3xl leading-loose text-right text-gray-900" dir="rtl">
+            <div className="arabic-text text-3xl leading-loose text-right text-gray-900 dark:text-gray-100" dir="rtl">
               {ayahs.map((ayah: any, index: number) => {
                 let ayahText = ayah.text || ''
                 ayahText = ayahText.replace(/[﴾۞]\d*[﴿۝]/g, '').replace(/[\s]+$/, '')
@@ -413,7 +413,7 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
         ) : (
           <div className="text-center py-12">
             <BookOpen className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-            <p className="text-gray-500 text-lg">Select a Juz, Surah, or Page to start reading</p>
+            <p className="text-gray-500 dark:text-gray-400 text-lg">Select a Juz, Surah, or Page to start reading</p>
           </div>
         )}
       </div>
