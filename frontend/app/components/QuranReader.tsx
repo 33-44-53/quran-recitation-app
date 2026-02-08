@@ -300,12 +300,15 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                   
                   if (!ayahText) return null
                   
+                  const isLastAyahOfSurah = index < ayahs.length - 1 && ayahs[index + 1].surah?.number !== ayah.surah?.number
+                  
                   return (
                     <span key={ayah.number}>
                       {ayahText}{' '}
                       <span className="text-islamic-green font-bold">
                         ﴿{ayah.numberInSurah}﴾
-                      </span>{' '}
+                      </span>
+                      {isLastAyahOfSurah ? <br /><br /> : ' '}
                     </span>
                   )
                 })}
