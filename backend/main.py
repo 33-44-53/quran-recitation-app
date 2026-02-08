@@ -23,7 +23,13 @@ DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_jQehWAIi
 # Use psycopg (v3) for PostgreSQL
 if DATABASE_URL.startswith("postgresql"):
     DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg://")
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True,
+    pool_recycle=300,
+    pool_size=5,
+    max_overflow=10
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
