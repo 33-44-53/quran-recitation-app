@@ -284,7 +284,7 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
             </div>
 
             <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg">
-              {ayahs[0]?.numberInSurah === 1 && surah.number !== 1 && (
+              {ayahs[0]?.numberInSurah === 1 && surah.number !== 1 && surah.number !== 9 && (
                 <div className="text-center mb-6">
                   <div className="arabic-text text-3xl leading-loose text-islamic-green" dir="rtl">
                     بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
@@ -297,6 +297,8 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                   const ayahText = shouldSkipNumber 
                     ? ayah.text.replace(/^بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\s*/, '')
                     : ayah.text
+                  
+                  if (!ayahText) return null
                   
                   return (
                     <span key={ayah.number}>

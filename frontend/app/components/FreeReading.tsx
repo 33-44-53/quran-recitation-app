@@ -382,7 +382,7 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
               </div>
             )}
 
-            {ayahs[0]?.numberInSurah === 1 && currentData?.number !== 1 && (
+            {ayahs[0]?.numberInSurah === 1 && currentData?.number !== 1 && currentData?.number !== 9 && (
               <div className="text-center mb-6">
                 <div className="arabic-text text-3xl leading-loose text-islamic-green" dir="rtl">
                   بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
@@ -398,6 +398,8 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
                 if (currentData?.number !== 1 && index === 0 && /^بِسْمِ/.test(ayahText)) {
                   ayahText = ayahText.replace(/^بِسْمِ\s*ٱللَّهِ\s*ٱلرَّحْمَٰنِ\s*ٱلرَّحِيمِ\s*/u, '').trim()
                 }
+                
+                if (!ayahText) return null
 
                 return (
                   <span key={ayah.number}>
