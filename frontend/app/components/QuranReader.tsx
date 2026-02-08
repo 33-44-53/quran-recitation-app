@@ -286,12 +286,12 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
             <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg">
               {ayahs[0]?.numberInSurah === 1 && surah.number !== 1 && surah.number !== 9 && (
                 <div className="text-center mb-6">
-                  <div className="arabic-text text-2xl leading-loose text-islamic-green" dir="rtl">
+                  <div className="arabic-text text-xl leading-relaxed text-islamic-green" dir="rtl">
                     بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
                   </div>
                 </div>
               )}
-              <div className="arabic-text text-2xl leading-loose text-right text-gray-900 dark:text-gray-100" dir="rtl">
+              <div className="arabic-text text-xl leading-relaxed text-right text-gray-900 dark:text-gray-100" dir="rtl">
                 {ayahs.map((ayah: any, index: number) => {
                   const shouldSkipNumber = surah.number !== 1 && index === 0 && ayah.text.startsWith('بِسْمِ اللَّهِ')
                   const ayahText = shouldSkipNumber 

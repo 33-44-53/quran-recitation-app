@@ -384,13 +384,13 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
 
             {ayahs[0]?.numberInSurah === 1 && currentData?.number !== 1 && currentData?.number !== 9 && (
               <div className="text-center mb-6">
-                <div className="arabic-text text-2xl leading-loose text-islamic-green" dir="rtl">
+                <div className="arabic-text text-xl leading-relaxed text-islamic-green" dir="rtl">
                   بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
                 </div>
               </div>
             )}
 
-            <div className="arabic-text text-2xl leading-loose text-right text-gray-900 dark:text-gray-100" dir="rtl">
+            <div className="arabic-text text-xl leading-relaxed text-right text-gray-900 dark:text-gray-100" dir="rtl">
               {ayahs.map((ayah: any, index: number) => {
                 let ayahText = ayah.text || ''
                 ayahText = ayahText.replace(/[﴾۞]\d*[﴿۝]/g, '').replace(/[\s]+$/, '')
