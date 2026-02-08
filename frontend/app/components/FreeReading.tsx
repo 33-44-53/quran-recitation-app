@@ -335,7 +335,14 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
               </button>
               <div className="flex items-center space-x-2">
                 <span className="text-gray-600 dark:text-gray-400">Page</span>
-                <span className="text-lg font-medium text-gray-900 dark:text-white">{pageNumber}</span>
+                <input
+                  type="number"
+                  value={pageNumber}
+                  onChange={(e) => setPageNumber(parseInt(e.target.value) || 1)}
+                  min="1"
+                  max="604"
+                  className="w-16 text-center px-2 py-1 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-800"
+                />
               </div>
               <button
                 onClick={() => {
@@ -348,6 +355,12 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
                 className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 text-gray-800 dark:text-gray-200"
               >
                 <ChevronRight className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => fetchByPage(pageNumber)}
+                className="px-4 py-2 bg-islamic-green text-white rounded-lg hover:bg-islamic-dark"
+              >
+                Go
               </button>
             </div>
           )}
