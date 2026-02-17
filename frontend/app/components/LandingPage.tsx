@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { BookOpen, Heart, Star, Moon, Sun, Book, MessageCircle, Linkedin, Instagram } from 'lucide-react'
+import { BookOpen, Heart, Star, Moon, Sun, Book, MessageCircle, Linkedin, Instagram, HelpCircle, X } from 'lucide-react'
 
 interface LandingPageProps {
   onSignUp: () => void
@@ -10,6 +10,8 @@ interface LandingPageProps {
 }
 
 export default function LandingPage({ onSignUp, onSignIn, onFreeReading }: LandingPageProps) {
+  const [showHelp, setShowHelp] = useState(false)
+
   return (
     <div 
       className="min-h-screen relative bg-black"
@@ -18,6 +20,13 @@ export default function LandingPage({ onSignUp, onSignIn, onFreeReading }: Landi
       
       {/* Top Right Buttons */}
       <div className="absolute top-6 right-6 flex items-center space-x-4 z-20">
+        <button
+          onClick={() => setShowHelp(true)}
+          className="px-6 py-2.5 bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-full font-medium hover:bg-white/20 transition-all duration-300 flex items-center space-x-2"
+        >
+          <HelpCircle className="w-5 h-5" />
+          <span>Help</span>
+        </button>
         <button
           onClick={onSignIn}
           className="px-6 py-2.5 bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-full font-medium hover:bg-white/20 transition-all duration-300"
@@ -150,6 +159,114 @@ export default function LandingPage({ onSignUp, onSignIn, onFreeReading }: Landi
 
       {/* Decorative bottom pattern */}
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-islamic-green to-transparent"></div>
+
+      {/* Help Modal */}
+      {showHelp && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+            <div className="sticky top-0 bg-islamic-green text-white p-6 flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <HelpCircle className="w-6 h-6" />
+                <h2 className="text-2xl font-bold">User Guide</h2>
+              </div>
+              <button onClick={() => setShowHelp(false)} className="p-2 hover:bg-white/20 rounded-full transition-colors">
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="overflow-y-auto max-h-[calc(90vh-88px)] p-6 space-y-6">
+              <section>
+                <h3 className="text-xl font-bold text-islamic-green mb-3">🚀 Getting Started</h3>
+                <div className="space-y-2 text-gray-700 dark:text-gray-300">
+                  <p className="font-semibold">Step 1: Create Your Account</p>
+                  <ol className="list-decimal list-inside space-y-1 ml-4">
+                    <li>Click "Sign Up" button</li>
+                    <li>Enter your name, email, and password</li>
+                    <li>Click "Create Account"</li>
+                  </ol>
+                  <p className="font-semibold mt-4">Step 2: Set Your Ramadan Goal</p>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li><strong>1 Juz/day</strong> → Complete in 30 days (Beginner)</li>
+                    <li><strong>2 Juz/day</strong> → Complete in 15 days (Moderate)</li>
+                    <li><strong>3 Juz/day</strong> → Complete in 10 days (Advanced)</li>
+                    <li><strong>5 Juz/day</strong> → Complete in 6 days (Expert)</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section>
+                <h3 className="text-xl font-bold text-islamic-green mb-3">📊 Dashboard Overview</h3>
+                <div className="space-y-2 text-gray-700 dark:text-gray-300">
+                  <p><strong>Statistics Cards:</strong></p>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li>Full Reading - Total Quran completions</li>
+                    <li>Overall Progress - Completion percentage</li>
+                    <li>Today's Progress - Current day status</li>
+                    <li>Days Remaining - Countdown to end</li>
+                  </ul>
+                  <p className="mt-3"><strong>Today's Plan:</strong> Shows Juz assigned for today with Read and checkmark buttons</p>
+                  <p className="mt-3"><strong>All Ramadan Days:</strong> Expandable calendar showing all 30 days. Click any day to view and complete its Juz assignments</p>
+                </div>
+              </section>
+
+              <section>
+                <h3 className="text-xl font-bold text-islamic-green mb-3">📖 Reading the Quran</h3>
+                <div className="space-y-2 text-gray-700 dark:text-gray-300">
+                  <p><strong>From Dashboard:</strong> Click "Read" button on any Juz</p>
+                  <p><strong>Free Reading Mode:</strong> Click "Free Reading" to browse by:</p>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li>Juz (1-30)</li>
+                    <li>Surah (1-114)</li>
+                    <li>Page (1-604)</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section>
+                <h3 className="text-xl font-bold text-islamic-green mb-3">✅ Tracking Progress</h3>
+                <div className="space-y-2 text-gray-700 dark:text-gray-300">
+                  <p><strong>Mark as Complete:</strong></p>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li>Click checkmark (✓) next to any Juz</li>
+                    <li>Click "Mark as Read" while reading</li>
+                    <li>Expand any day in calendar to mark specific Juz</li>
+                  </ul>
+                  <p className="mt-3"><strong>Catch Up:</strong> Click on past days in the calendar to complete missed readings</p>
+                </div>
+              </section>
+
+              <section>
+                <h3 className="text-xl font-bold text-islamic-green mb-3">💡 Pro Tips</h3>
+                <div className="space-y-2 text-gray-700 dark:text-gray-300">
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li>Check dashboard daily for motivation</li>
+                    <li>Use the expandable calendar to plan ahead</li>
+                    <li>Complete missed days anytime - no pressure!</li>
+                    <li>Toggle dark mode for comfortable night reading</li>
+                    <li>Add to home screen on mobile for quick access</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section>
+                <h3 className="text-xl font-bold text-islamic-green mb-3">🤝 Need Help?</h3>
+                <div className="space-y-2 text-gray-700 dark:text-gray-300">
+                  <p>Contact us:</p>
+                  <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li>Telegram: @umem2034</li>
+                    <li>Instagram: @umer.salahadin</li>
+                    <li>LinkedIn: Umer Selahadin</li>
+                  </ul>
+                </div>
+              </section>
+
+              <div className="text-center pt-6 border-t border-gray-200 dark:border-gray-700">
+                <p className="text-islamic-green font-semibold text-lg">May Allah Accept Your Recitation! 🤲</p>
+                <p className="text-gray-600 dark:text-gray-400 mt-2">Ramadan Mubarak!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
