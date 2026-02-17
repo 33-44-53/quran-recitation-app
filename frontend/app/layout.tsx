@@ -6,7 +6,25 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Tilawa - Your Journey Through the Quran',
-  description: 'Track your daily reading, set goals, and deepen your connection with the Holy Quran',
+  description: 'Track your Quran reading progress during Ramadan. Set daily goals, track Juz completion, and deepen your connection with the Holy Quran.',
+  keywords: 'Quran, Tilawa, Ramadan, Islamic app, Quran reading, Juz tracker, Quran progress, Muslim app, Quran recitation',
+  authors: [{ name: 'Umer Software' }],
+  openGraph: {
+    title: 'Tilawa - Your Journey Through the Quran',
+    description: 'Track your Quran reading progress during Ramadan',
+    url: 'https://tilawa.vercel.app',
+    siteName: 'Tilawa',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Tilawa - Your Journey Through the Quran',
+    description: 'Track your Quran reading progress during Ramadan',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function RootLayout({
