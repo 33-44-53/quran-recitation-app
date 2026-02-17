@@ -308,7 +308,13 @@ export default function QuranReader({ juzNumber, token, onBack, onJuzChange }: Q
                       <span className="text-islamic-green font-bold">
                         ﴿{ayah.numberInSurah}﴾
                       </span>
-                      {isLastAyahOfSurah ? <br /><br /> : ' '}
+                      {isLastAyahOfSurah && (
+                        <>
+                          <br />
+                          <br />
+                        </>
+                      )}
+                      {!isLastAyahOfSurah && ' '}
                     </span>
                   )
                 })}
