@@ -27,6 +27,10 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
   })
   const [expandedDay, setExpandedDay] = useState<number | null>(null)
 
+  const handleDayClick = (dayNumber: number) => {
+    setExpandedDay(expandedDay === dayNumber ? null : dayNumber)
+  }
+
   useEffect(() => {
     fetchData()
     
@@ -429,8 +433,9 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
                   }`}
                 >
                   <button
-                    onClick={() => setExpandedDay(isExpanded ? null : day.day)}
-                    className="w-full p-3 sm:p-4 flex items-center justify-between hover:opacity-80 transition-opacity"
+                    onClick={() => handleDayClick(day.day)}
+                    className="w-full p-3 sm:p-4 flex items-center justify-between hover:opacity-80 transition-opacity cursor-pointer"
+                    type="button"
                   >
                     <div className="flex items-center space-x-3 sm:space-x-4">
                       <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-sm sm:text-base ${
@@ -500,18 +505,26 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
                             </div>
                             <div className="flex items-center space-x-2">
                               <button
-                                onClick={() => onStartReading(juzNumber)}
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  onStartReading(juzNumber)
+                                }}
                                 className="px-3 py-1.5 sm:px-4 sm:py-2 bg-islamic-green text-white rounded-lg hover:bg-islamic-dark transition-colors text-xs sm:text-sm font-medium"
+                                type="button"
                               >
                                 Read
                               </button>
                               <button
-                                onClick={() => toggleJuzCompletion(juzNumber, day.day, isCompleted)}
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  toggleJuzCompletion(juzNumber, day.day, isCompleted)
+                                }}
                                 className={`p-1.5 sm:p-2 rounded-lg transition-colors ${
                                   isCompleted 
                                     ? 'text-green-600 hover:text-green-700' 
                                     : 'text-gray-400 hover:text-green-600'
                                 }`}
+                                type="button"
                               >
                                 <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                               </button>
