@@ -41,6 +41,11 @@ export default function Home() {
       const response = await fetch(`${API_URL}/me`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       })
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data')
+      }
+      
       const data = await response.json()
       
       if (data.ramadan_goal && data.ramadan_start_date) {
@@ -50,7 +55,8 @@ export default function Home() {
       }
     } catch (error) {
       console.error('Error checking user goal:', error)
-      setCurrentView('setup')
+      // If error, logout and go to landing
+      handleLogout()
     }
   }
 
@@ -70,7 +76,11 @@ export default function Home() {
   }
 
   const handleBackFromFreeReading = () => {
-    setCurrentView('dashboard')
+    if (token) {
+      setCurrentView('dashboard')
+    } else {
+      setCurrentView('landing')
+    }
   }
 
   const handleStartReading = (juzNumber: number) => {

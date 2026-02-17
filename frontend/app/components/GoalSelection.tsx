@@ -25,20 +25,26 @@ export default function GoalSelection({ token, onGoalSet, onFreeReading }: GoalS
   const handleStartJourney = async () => {
     setLoading(true)
     try {
-      await axios.post(
+      const response = await axios.post(
         `${API_URL}/set-goal`,
         {
           ramadan_goal: selectedGoal,
           ramadan_start_date: new Date().toISOString()
         },
         {
-          headers: { 'Authorization': `Bearer ${token}` }
+          headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         }
       )
-      onGoalSet()
-    } catch (error) {
+      if (response.status === 200) {
+        onGoalSet()
+      }
+    } catch (error: any) {
       console.error('Error setting goal:', error)
-      alert('Failed to set goal. Please try again.')
+      const errorMsg = error.response?.data?.detail || error.message || 'Failed to set goal'
+      alert(`Error: ${errorMsg}. Please try again.`)
     } finally {
       setLoading(false)
     }
