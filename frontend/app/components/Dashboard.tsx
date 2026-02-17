@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Book, Calendar, TrendingUp, LogOut, Heart, CheckCircle, Target, Clock, Edit2, BookOpen } from 'lucide-react'
+import { Book, Calendar, TrendingUp, LogOut, Heart, CheckCircle, Target, Clock, Edit2, BookOpen, ChevronDown, ChevronUp } from 'lucide-react'
 import axios from 'axios'
 import { API_URL } from '../config/api'
 
@@ -25,6 +25,7 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
     ramadan_goal: 1,
     ramadan_start_date: ''
   })
+  const [expandedDay, setExpandedDay] = useState<number | null>(null)
 
   useEffect(() => {
     fetchData()
@@ -406,33 +407,120 @@ export default function Dashboard({ token, userName, onStartReading, onLogout, o
         </div>
 
         <div className="bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-6 shadow-lg">
-          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 dark:text-white">Calendar</h2>
-          <div className="grid grid-cols-7 gap-1 sm:gap-2">
+          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 dark:text-white">All Ramadan Days</h2>
+          <div className="space-y-2">
             {dailyPlan.map((day) => {
               const completionRate = day.required_juz.length > 0 
                 ? (day.completed_juz.length / day.required_juz.length) * 100 
                 : 0
+              const isExpanded = expandedDay === day.day
               
               return (
                 <div
                   key={day.day}
-                  className={`p-2 sm:p-3 rounded-lg text-center border-2 ${
+                  className={`rounded-lg border-2 overflow-hidden transition-all ${
                     day.is_today
-                      ? 'border-islamic-green bg-green-50'
-                      : day.is_future
-                      ? 'border-gray-200 bg-gray-100 opacity-60'
+                      ? 'border-islamic-green bg-green-50 dark:bg-green-900/20'
                       : completionRate === 100
-                      ? 'border-green-500 bg-green-100'
+                      ? 'border-green-500 bg-green-50 dark:bg-green-900/10'
                       : completionRate > 0
-                      ? 'border-yellow-500 bg-yellow-50'
-                      : 'border-red-200 bg-red-50'
+                      ? 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/10'
+                      : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800'
                   }`}
                 >
-                  <div className={`font-bold text-sm sm:text-base ${day.is_today ? 'text-islamic-green' : 'text-gray-800'}`}>{day.day}</div>
-                  <div className={`text-xs mt-0.5 sm:mt-1 font-medium ${day.is_today ? 'text-islamic-dark' : 'text-gray-700'}`}>
-                    {day.completed_juz.length}/{day.required_juz.length}
-                  </div>
-                  <div className={`text-xs font-semibold ${completionRate === 100 ? 'text-green-600' : completionRate > 0 ? 'text-yellow-600' : 'text-red-400'}`}>{Math.round(completionRate)}%</div>
+                  <button
+                    onClick={() => setExpandedDay(isExpanded ? null : day.day)}
+                    className="w-full p-3 sm:p-4 flex items-center justify-between hover:opacity-80 transition-opacity"
+                  >
+                    <div className="flex items-center space-x-3 sm:space-x-4">
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-sm sm:text-base ${
+                        day.is_today
+                          ? 'bg-islamic-green text-white'
+                          : completionRate === 100
+                          ? 'bg-green-500 text-white'
+                          : completionRate > 0
+                          ? 'bg-yellow-500 text-white'
+                          : 'bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200'
+                      }`}>
+                        {day.day}
+                      </div>
+                      <div className="text-left">
+                        <div className="font-semibold text-base sm:text-lg dark:text-white">
+                          Day {day.day} {day.is_today && <span className="text-islamic-green">(Today)</span>}
+                        </div>
+                        <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                          {new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3 sm:space-x-4">
+                      <div className="text-right">
+                        <div className={`text-sm sm:text-base font-bold ${
+                          completionRate === 100 ? 'text-green-600' : completionRate > 0 ? 'text-yellow-600' : 'text-gray-500 dark:text-gray-400'
+                        }`}>
+                          {day.completed_juz.length}/{day.required_juz.length} Juz
+                        </div>
+                        <div className={`text-xs sm:text-sm font-semibold ${
+                          completionRate === 100 ? 'text-green-600' : completionRate > 0 ? 'text-yellow-600' : 'text-gray-400'
+                        }`}>
+                          {Math.round(completionRate)}%
+                        </div>
+                      </div>
+                      {isExpanded ? (
+                        <ChevronUp className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                      )}
+                    </div>
+                  </button>
+                  
+                  {isExpanded && (
+                    <div className="px-3 pb-3 sm:px-4 sm:pb-4 space-y-2 border-t border-gray-200 dark:border-gray-700 pt-3">
+                      {day.required_juz.map((juzNumber: number) => {
+                        const isCompleted = day.completed_juz.includes(juzNumber)
+                        return (
+                          <div
+                            key={juzNumber}
+                            className={`flex items-center justify-between p-3 rounded-lg border ${
+                              isCompleted 
+                                ? 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700' 
+                                : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600'
+                            }`}
+                          >
+                            <div className="flex items-center space-x-3">
+                              <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm ${
+                                isCompleted ? 'bg-green-500 text-white' : 'bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200'
+                              }`}>
+                                {juzNumber}
+                              </div>
+                              <div>
+                                <div className="font-semibold text-sm sm:text-base dark:text-white">Juz {juzNumber}</div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400">≈ 20 pages</div>
+                              </div>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <button
+                                onClick={() => onStartReading(juzNumber)}
+                                className="px-3 py-1.5 sm:px-4 sm:py-2 bg-islamic-green text-white rounded-lg hover:bg-islamic-dark transition-colors text-xs sm:text-sm font-medium"
+                              >
+                                Read
+                              </button>
+                              <button
+                                onClick={() => toggleJuzCompletion(juzNumber, day.day, isCompleted)}
+                                className={`p-1.5 sm:p-2 rounded-lg transition-colors ${
+                                  isCompleted 
+                                    ? 'text-green-600 hover:text-green-700' 
+                                    : 'text-gray-400 hover:text-green-600'
+                                }`}
+                              >
+                                <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
+                              </button>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
                 </div>
               )
             })}
