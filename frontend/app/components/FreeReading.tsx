@@ -422,7 +422,13 @@ export default function FreeReading({ onBack }: FreeReadingProps) {
                     <span className="text-islamic-green font-bold">
                       ﴿{ayah.numberInSurah}﴾
                     </span>
-                    {isLastAyahOfSurah ? <br /><br /> : ' '}
+                    {isLastAyahOfSurah && (
+                      <>
+                        <br />
+                        <br />
+                      </>
+                    )}
+                    {!isLastAyahOfSurah && ' '}
                   </span>
                 )
               })}
